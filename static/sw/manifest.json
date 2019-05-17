@@ -1,0 +1,17 @@
+{
+  "shortname": "Clash Royale",
+  "name": "Clash Royale",
+  "description": "For CR Lover",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/static/images/cards/baby-dragon.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    }
+  ],
+  "theme_color": "#2185d0",
+  "background_color": "#2185d0"
+}
