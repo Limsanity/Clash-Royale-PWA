@@ -13,7 +13,7 @@ module.exports = {
     vendor: ['vue/dist/vue.esm.js', 'vuex', 'vue-router', 'axios']
   },
   output: {
-    path: resolve('static/dll'), // 打包后文件输出的位置
+    path: resolve('static/js'), // 打包后文件输出的位置
     filename: '[name].[chunkhash].dll.js',
     library: '[name]_library'
     // vendor.dll.js中暴露出的全局变量名。
@@ -23,7 +23,7 @@ module.exports = {
   plugins: [
     new CleanWebpackPlugin(),
     new webpack.DllPlugin({
-      path: resolve('static/dll/[name]-manifest.json'),
+      path: resolve('static/js/[name]-manifest.json'),
       name: '[name]_library',
       context: __dirname
     })

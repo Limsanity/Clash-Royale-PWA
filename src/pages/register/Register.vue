@@ -7,7 +7,7 @@
         class="input"
         type="text"
         placeholder="username"
-        regExp="\w{6}"
+        regExp="^\w{6}$"
         :isValidate.sync="isUserNameValidate"
         :input.sync="username">
       </validate-input>
@@ -16,7 +16,7 @@
       <validate-input
         class="input"
         type="password"
-        regExp="\w{6}"
+        regExp="\w{6,10}"
         placeholder="password"
         :isValidate.sync="isPasswordValidate"
         :input.sync="password">

@@ -5,6 +5,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 const webpack = require('webpack')
+const workboxPlugin = require('workbox-webpack-plugin')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -13,7 +14,7 @@ function resolve (dir) {
 module.exports = {
   context: path.join(__dirname, '../'),
   entry: {
-    app: './src/main.js',
+    app: './src/main.js'
   },
   output: {
     filename: 'static/js/[name].[chunkhash].js',
@@ -93,15 +94,23 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
-        from: resolve('static/sw')
+        from: resolve('src/sw')
+      },
+      {
+        from: resolve('static/workbox')
       }
     ]),
     new webpack.DllReferencePlugin({
       context: __dirname,
-      manifest: require('./../static/dll/vendor-manifest.json')
+      manifest: require('./../static/js/vendor-manifest.json')
     }),
     new AddAssetHtmlPlugin({
-      filepath: resolve('static/dll/*.js'),
+      filepath: resolve('static/js/*.js'),
+    }),
+    new workboxPlugin.InjectManifest({
+      swSrc: './src/sw/serviceWorker.js',
+      swDest: 'serviceWorker.js',
+      importWorkboxFrom: 'local'
     })
   ]
 };
