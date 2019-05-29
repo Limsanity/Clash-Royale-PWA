@@ -110,7 +110,8 @@ module.exports = {
     new workboxPlugin.InjectManifest({
       swSrc: './src/sw/serviceWorker.js',
       swDest: 'serviceWorker.js',
-      importWorkboxFrom: 'local'
+      importWorkboxFrom: 'local',
+      exclude: [/^workbox/]
     })
   ]
 };
