@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "NODE_ENV=production webpack --config build/webpack.build.config.js",
-    "dev:client": "NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js",
+    "build": "cross-env NODE_ENV=production webpack --config build/webpack.build.config.js",
+    "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js",
     "dev:server": "nodemon server/app.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dll": "webpack --config build/webpack.dll.config.js",
@@ -69,6 +69,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-scroll-lock": "^2.6.1",
+    "cross-env": "^5.2.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.6",
     "vuex": "^3.1.0"
