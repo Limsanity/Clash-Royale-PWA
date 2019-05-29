@@ -1,5 +1,6 @@
 .DS_Store
 server/certificate/
+static/dll/
 node_modules/
 /dist/
 npm-debug.log*
