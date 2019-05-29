@@ -9,6 +9,17 @@ workbox.core.setCacheNameDetails({
 
 workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache => ({ url: precache.url }))))
 
+// workbox.routing.registerRoute(
+//   '/',
+//   new workbox.strategies.StaleWhileRevalidate({
+//     plugins: [
+//       new workbox.broadcastUpdate.Plugin({
+//         channelName: 'index-update'
+//       }),
+//     ]
+//   })
+// )
+
 workbox.routing.registerRoute(
   '/',
   new workbox.strategies.NetworkFirst()
