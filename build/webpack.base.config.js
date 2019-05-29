@@ -94,7 +94,8 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       {
-        from: resolve('src/sw')
+        from: resolve('src/sw'),
+        ignore: ['*.js']
       },
       {
         from: resolve('static/workbox')
@@ -110,7 +111,8 @@ module.exports = {
     new workboxPlugin.InjectManifest({
       swSrc: './src/sw/serviceWorker.js',
       swDest: 'serviceWorker.js',
-      importWorkboxFrom: 'local'
+      importWorkboxFrom: 'local',
+      exclude: [/^workbox/, /index\.html/]
     })
   ]
 };

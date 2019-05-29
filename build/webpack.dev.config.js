@@ -36,8 +36,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       }
     },
     hot: true,
-    quiet: true,
-    open: true
+    quiet: true
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
