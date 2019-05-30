@@ -56,5 +56,6 @@ if ('serviceWorker' in navigator) {
 
 const updatesChannel = new BroadcastChannel('index-update')
 updatesChannel.addEventListener('message', async () => {
-  console.log(1)
+  // console.log(1)
+  location.reload()
 })
