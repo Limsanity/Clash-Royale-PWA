@@ -1,3 +1,5 @@
+importScripts('/indexDB.js')
+
 const runtimeCacheName = 'cr-cache'
 
 workbox.core.skipWaiting()
@@ -45,7 +47,16 @@ workbox.routing.registerRoute(
 workbox.routing.setDefaultHandler(({ event }) => {
   switch (event.request.destination) {
     case 'document':
-      return caches.open(runtimeCacheName).then((cache) => cache.match('/'))
+      return fetch('/').catch(res => caches.open(runtimeCacheName).then((cache) => cache.match('/')))
+  }
+})
+
+self.addEventListener('sync', (event) => {
+  if (event.tag === 'send-deck') {
+    const decks = []
+    getFromObjectStore('deck', decks).then(() => {
+      decks.forEach(deck => deleteFromObjectStore('deck', deck))
+    })
   }
 })
 

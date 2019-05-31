@@ -98,6 +98,9 @@ module.exports = {
         ignore: ['*.js']
       },
       {
+        from: resolve('src/utils/indexDB.js')
+      },
+      {
         from: resolve('static/workbox')
       }
     ]),
@@ -112,7 +115,7 @@ module.exports = {
       swSrc: './src/sw/serviceWorker.js',
       swDest: 'serviceWorker.js',
       importWorkboxFrom: 'local',
-      exclude: [/^workbox/, /index\.html/]
+      exclude: [/^workbox/, /index\.html/, /indexDB\.js/]
     })
   ]
 };

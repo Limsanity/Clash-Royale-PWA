@@ -18,6 +18,10 @@
 </template>
 
 <script>
+import {
+  addToObjectStore,
+  getFromObjectStore
+} from '@/utils/indexDB.js'
 import axios from 'axios'
 import AddDeck from './components/AddDecks'
 import loadImg from '@/mixins/loadImg'
@@ -76,19 +80,26 @@ export default {
       this.showAddDeck = false
       enableBodyScroll(document.querySelector('.add-deck .wrapper'))
       if (deck) {
-        axios.post('/api/deck', deck)
-          .then(res => {
-            const { success, deckID, data } = res.data
-            if (success) {
-              this.decksList.push({
-                deckID,
-                deck
-              })
-              console.log(deck)
-            } else {
-              alert(data)
-            }
-          })
+        this.decksList.push({
+          deckID: this.decksList.length + 1,
+          deck
+        })
+        addToObjectStore('deck', {
+          deck
+        })
+        // axios.post('/api/deck', deck)
+        //   .then(res => {
+        //     const { success, deckID, data } = res.data
+        //     if (success) {
+        //       this.decksList.push({
+        //         deckID,
+        //         deck
+        //       })
+        //       console.log(deck)
+        //     } else {
+        //       alert(data)
+        //     }
+        //   })
       }
     },
     handleAddClick () {
@@ -106,7 +117,7 @@ export default {
     }
   },
   mounted () {
-    this.fetchData()
+    getFromObjectStore('deck', this.decksList)
   }
 }
 </script>

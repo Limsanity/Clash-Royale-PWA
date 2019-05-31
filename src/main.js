@@ -7,6 +7,7 @@ import store from './store'
 import TopBar from './components/topbar'
 import ValidateInput from './components/validateInput'
 import Notification from './components/notification'
+import FastClick from 'fastclick'
 import 'styles/iconfont.css'
 
 Vue.config.productionTip = false
@@ -14,6 +15,7 @@ Vue.config.productionTip = false
 Vue.use(TopBar)
 Vue.use(ValidateInput)
 Vue.use(Notification)
+FastClick.attach(document.body)
 
 Vue.directive('lazy', {
   inserted: function (el) {

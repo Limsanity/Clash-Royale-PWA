@@ -1,0 +1,79 @@
+const openDatabase = function () {
+  const request = self.indexedDB.open('cr-database', 2)
+
+  request.onupgradeneeded = function (event) {
+    const db = event.target.result
+    if (!db.objectStoreNames.contains('deck')) {
+      db.createObjectStore('deck', { autoIncrement: true })
+    }
+  }
+
+  request.onerror = function (event) {
+    console.log('Database error', event.target.error)
+  }
+
+  return request
+}
+
+const openObjectStore = function (storeName, callback, transactionMode) {
+  const db = openDatabase()
+  db.onsuccess = function (event) {
+    const db = event.target.result
+    const objectStore = db
+      .transaction(storeName, transactionMode)
+      .objectStore(storeName)
+    callback(objectStore)
+  }
+  return true
+}
+
+const addToObjectStore = function (storeName, object) {
+  openObjectStore(storeName, function (store) {
+    store.add(object)
+  }, 'readwrite')
+}
+
+const getFromObjectStore = function (storeName, objects) {
+  return new Promise((resolve) => {
+    openObjectStore(storeName, function (store) {
+      store.openCursor().onsuccess = function (event) {
+        let cursor = event.target.result
+        if (cursor) {
+          objects.push(cursor.value)
+          cursor.continue()
+        } else {
+          resolve()
+        }
+      }
+    })
+  })
+  // openObjectStore(storeName, function (store) {
+  //   store.openCursor().onsuccess = function (event) {
+  //     let cursor = event.target.result
+  //     if (cursor) {
+  //       objects.push(cursor.value)
+  //       cursor.continue()
+  //     }
+  //   }
+  // })
+}
+
+const deleteFromObjectStore = function (storeName, object) {
+  openObjectStore(storeName, function (store) {
+    store.openCursor().onsuccess = function (event) {
+      let cursor = event.target.result
+      if (cursor) {
+        console.log(object, cursor.value)
+        cursor.continue()
+      }
+    }
+  })
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = {
+    addToObjectStore,
+    getFromObjectStore,
+    deleteFromObjectStore
+  }
+}
