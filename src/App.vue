@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <top-bar></top-bar>
+    <notification></notification>
     <router-view class="content"/>
   </div>
 </template>

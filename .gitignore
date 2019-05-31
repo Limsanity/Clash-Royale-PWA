@@ -1,6 +1,10 @@
 .DS_Store
 server/certificate/
+<<<<<<< HEAD
+static/dll/
+=======
 static/dll
+>>>>>>> 3bc988b14239ca5c63431b6b40459dda22f78ac5
 node_modules/
 /dist/
 npm-debug.log*

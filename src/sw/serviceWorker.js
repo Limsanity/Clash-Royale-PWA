@@ -1,34 +1,25 @@
+const runtimeCacheName = 'cr-cache'
+
 workbox.core.skipWaiting()
 workbox.core.clientsClaim()
 workbox.core.setCacheNameDetails({
   prefix: '',
   suffix: '',
-  precache: 'cr-cache',
-  runtime: 'cr-cache'
+  precache: runtimeCacheName,
+  runtime: runtimeCacheName
 })
 
 workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache => ({ url: precache.url }))))
 
 workbox.routing.registerRoute(
   '/',
-  new workbox.strategies.StaleWhileRevalidate({
-    plugins: [
-      new workbox.broadcastUpdate.Plugin({
-        channelName: 'index-update'
-      }),
-    ]
-  })
+  new workbox.strategies.NetworkFirst()
 )
-
-// workbox.routing.registerRoute(
-//   '/',
-//   new workbox.strategies.NetworkFirst()
-// )
 
 workbox.routing.registerRoute(
   /\.(js|css)$/,
   new workbox.strategies.CacheFirst({
-    cacheName: 'cr-cache'
+    cacheName: runtimeCacheName
   })
 )
 
@@ -50,6 +41,13 @@ workbox.routing.registerRoute(
     cacheName: 'api-cache'
   })
 )
+
+workbox.routing.setDefaultHandler(({ event }) => {
+  switch (event.request.destination) {
+    case 'document':
+      return caches.open(runtimeCacheName).then((cache) => cache.match('/'))
+  }
+})
 
 self.addEventListener('push', (event) => {
   const title = 'Get Started With Workbox'
