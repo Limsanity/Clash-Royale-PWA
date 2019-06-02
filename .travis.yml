@@ -9,7 +9,7 @@ branches:
   - master
 before_install:
 - openssl aes-256-cbc -K $encrypted_12a95cd6f608_key -iv $encrypted_12a95cd6f608_iv
-  -in id_rsa.enc -out ~\/.ssh/id_rsa -d
+  -in id_rsa.enc -out ~/.ssh/id_rsa -d
 script:
 - npm install
 - npm run dll
