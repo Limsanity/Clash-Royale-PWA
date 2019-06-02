@@ -54,6 +54,7 @@ workbox.routing.setDefaultHandler(({ event }) => {
 self.addEventListener('sync', (event) => {
   if (event.tag === 'send-deck') {
     const decks = []
+    console.log(getFromObjectStore('deck', decks))
     getFromObjectStore('deck', decks).then(() => {
       decks.forEach(deck => deleteFromObjectStore('deck', deck))
     })

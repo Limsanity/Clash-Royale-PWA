@@ -47,15 +47,6 @@ const getFromObjectStore = function (storeName, objects) {
       }
     })
   })
-  // openObjectStore(storeName, function (store) {
-  //   store.openCursor().onsuccess = function (event) {
-  //     let cursor = event.target.result
-  //     if (cursor) {
-  //       objects.push(cursor.value)
-  //       cursor.continue()
-  //     }
-  //   }
-  // })
 }
 
 const deleteFromObjectStore = function (storeName, object) {
