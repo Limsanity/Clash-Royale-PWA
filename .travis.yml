@@ -16,4 +16,4 @@ script:
 - npm run dll
 - npm run build
 after_success:
-- scp -r dist root@134.175.33.133:~/dist
+- rsync -r dist root@134.175.33.133:~/ --delete
