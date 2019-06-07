@@ -112,10 +112,11 @@ module.exports = {
       filepath: resolve('static/js/*.js'),
     }),
     new workboxPlugin.InjectManifest({
-      swSrc: './src/sw/serviceWorker.js',
+      swSrc: path.join(__dirname, '../src/sw/serviceWorker.js'),
       swDest: 'serviceWorker.js',
-      importWorkboxFrom: 'local',
-      exclude: [/^workbox/, /index\.html/, /indexDB\.js/]
+      exclude: [/index\.html/, /indexDB\.js/]
+      // importWorkboxFrom: 'local',
+      // exclude: [/^workbox/, /index\.html/, /indexDB\.js/]
     })
   ]
 };

@@ -3,7 +3,9 @@ importScripts('/indexDB.js')
 const runtimeCacheName = 'cr-cache'
 
 workbox.core.skipWaiting()
+
 workbox.core.clientsClaim()
+
 workbox.core.setCacheNameDetails({
   prefix: '',
   suffix: '',
@@ -54,9 +56,21 @@ workbox.routing.setDefaultHandler(({ event }) => {
 self.addEventListener('sync', (event) => {
   if (event.tag === 'send-deck') {
     const decks = []
-    console.log(getFromObjectStore('deck', decks))
     getFromObjectStore('deck', decks).then(() => {
-      decks.forEach(deck => deleteFromObjectStore('deck', deck))
+      decks.forEach(deck => {
+        fetch('/api/deck', {
+          body: JSON.stringify(deck.deck),
+          headers: {
+            'content-type': 'application/json'
+          },
+          method: 'POST'
+        }).then(res => {
+          console.log(res.status)
+          if (res.status === 200) {
+            deleteFromObjectStore('deck', deck.key)
+          }
+        })
+      })
     })
   }
 })

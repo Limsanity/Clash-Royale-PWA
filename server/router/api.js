@@ -29,6 +29,7 @@ apiRouter.post('/deck', async ctx => {
     const userID = ctx.session.userID
     const body = ctx.request.body
     const arg = []
+    console.log(body)
     body.forEach(item => {
       arg.push(item.id)
     })
