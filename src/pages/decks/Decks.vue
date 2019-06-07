@@ -1,6 +1,5 @@
 <template>
   <div class="decks">
-    <h1 class="title">Decks</h1>
     <button class="add-btn" @click="handleAddClick">增加</button>
     <div class="decks-wrapper">
       <div class="decks-list" v-for="(item, index) in decksList" :key="item.deckID">
@@ -129,9 +128,12 @@ export default {
 
 <style lang="stylus" scoped>
   .decks
-    .title
-      margin 0
-      font-size 20px
+    padding .266667rem
+    border .026667rem solid
+    border-top 0
+    border-color #d4d4d5
+    border-radius 0 0 .16rem .16rem
+    background-color #fff
 
     .add-btn
       width 2.666667rem
@@ -152,8 +154,8 @@ export default {
         flex-wrap wrap
 
         .decks-item
-          width 2.24rem
-          height 2.666667rem
+          width 1.92rem
+          height 2.32rem
 
         .button
           display flex

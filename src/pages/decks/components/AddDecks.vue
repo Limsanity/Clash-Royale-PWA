@@ -1,5 +1,5 @@
 <template>
-  <div v-if="playerInfo">
+  <div v-if="cards">
     <div class="mask"></div>
     <div class="selected">
       <img
@@ -19,7 +19,7 @@
       <img
         class="card"
         v-lazy
-        v-for="item of playerInfo.cards"
+        v-for="item of cards"
         :key="item.id"
         :data-src="loadImg('cards', item.key)"
         @click="choose(item)"
@@ -35,7 +35,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapMutations, mapState } from 'vuex'
+import axiosIns from 'utils/axiosInstance.js'
 import loadImg from '@/mixins/loadImg'
 export default {
   name: 'AddDeck',
@@ -49,9 +50,10 @@ export default {
     }
   },
   computed: {
-    ...mapState(['playerInfo'])
+    ...mapState(['cards'])
   },
   methods: {
+    ...mapMutations(['setCards']),
     choose (item) {
       if (this.selected.length === 8 ||
           this.selected.includes(item)) {
@@ -67,6 +69,18 @@ export default {
     },
     cancel () {
       this.$emit('done', false)
+    },
+    getCards (tag) {
+      return axiosIns
+        .get(`player/${tag}`)
+        .then(res => {
+          this.setCards(res.data.cards)
+        })
+    }
+  },
+  mounted () {
+    if (!this.cards) {
+      this.getCards('20Q2U9UQQ')
     }
   }
 }

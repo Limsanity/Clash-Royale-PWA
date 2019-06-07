@@ -18,6 +18,7 @@ export default {
     margin 0
     padding 0
     font-size 37.5px
+    background-color #f5f5f5
 
     .content
       position relative

@@ -23,5 +23,10 @@ export default {
   clearVisited (state) {
     localStorage.removeItem('visited')
     state.visited = [{ name: 'Limsanity', tag: '20Q2U9UQQ' }]
+  },
+  setCards (state, cards) {
+    if (!state.cards) {
+      state.cards = cards
+    }
   }
 }
