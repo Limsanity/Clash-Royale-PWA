@@ -39,6 +39,7 @@ const getFromObjectStore = function (storeName, objects) {
       store.openCursor().onsuccess = function (event) {
         let cursor = event.target.result
         if (cursor) {
+          cursor.value.key = cursor.key
           objects.push(cursor.value)
           cursor.continue()
         } else {
@@ -51,14 +52,8 @@ const getFromObjectStore = function (storeName, objects) {
 
 const deleteFromObjectStore = function (storeName, object) {
   openObjectStore(storeName, function (store) {
-    store.openCursor().onsuccess = function (event) {
-      let cursor = event.target.result
-      if (cursor) {
-        console.log(object, cursor.value)
-        cursor.continue()
-      }
-    }
-  })
+    store.delete(object)
+  }, 'readwrite')
 }
 
 if (typeof module !== 'undefined') {

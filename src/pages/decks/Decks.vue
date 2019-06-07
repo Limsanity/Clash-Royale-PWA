@@ -19,8 +19,7 @@
 
 <script>
 import {
-  addToObjectStore,
-  getFromObjectStore
+  addToObjectStore
 } from '@/utils/indexDB.js'
 import axios from 'axios'
 import AddDeck from './components/AddDecks'
@@ -87,6 +86,7 @@ export default {
         addToObjectStore('deck', {
           deck
         })
+        this.triggerSync()
         // axios.post('/api/deck', deck)
         //   .then(res => {
         //     const { success, deckID, data } = res.data
@@ -114,10 +114,15 @@ export default {
             this.decksList.splice(index, 1)
           }
         })
+    },
+    triggerSync () {
+      navigator.serviceWorker.ready.then(registration => {
+        registration.sync.register('send-deck')
+      })
     }
   },
   mounted () {
-    getFromObjectStore('deck', this.decksList)
+    this.fetchData()
   }
 }
 </script>
