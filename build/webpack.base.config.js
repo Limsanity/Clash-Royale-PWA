@@ -101,7 +101,9 @@ module.exports = {
         from: resolve('src/utils/indexDB.js')
       },
       {
-        from: resolve('static/workbox')
+        from: resolve('static/workbox'),
+        to: resolve('dist/workbox'),
+        ignore: process.env.NODE_ENV === 'production' ? ['*.dev.*'] : ['*.prod.*']
       }
     ]),
     new webpack.DllReferencePlugin({
@@ -114,9 +116,8 @@ module.exports = {
     new workboxPlugin.InjectManifest({
       swSrc: path.join(__dirname, '../src/sw/serviceWorker.js'),
       swDest: 'serviceWorker.js',
-      exclude: [/index\.html/, /indexDB\.js/]
-      // importWorkboxFrom: 'local',
-      // exclude: [/^workbox/, /index\.html/, /indexDB\.js/]
+      importWorkboxFrom: 'disabled',
+      exclude: [/^workbox/, /index\.html/, /indexDB\.js/]
     })
   ]
 };

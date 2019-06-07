@@ -51,7 +51,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
       {
         from: resolve('static/images'),
         to: 'static/images'
-      }
+      },
     ])
   ]
 })

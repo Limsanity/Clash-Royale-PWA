@@ -4,13 +4,11 @@
       <router-link tag="div" to="/" class="item iconfont">&#xe609;</router-link>
       <router-link tag="div" to="chests" class="item">Chests</router-link>
       <router-link tag="div" to="clans" class="item">Clans</router-link>
-      <router-link tag="div" to="decks" class="item">Decks</router-link>
       <router-link tag="div" to="cards" class="item">Cards</router-link>
     </div>
     <keep-alive>
       <router-view class="pages"></router-view>
     </keep-alive>
-    <!-- <router-view class="pages"></router-view> -->
   </div>
 </template>
 

@@ -9,6 +9,7 @@ import Cards from '@/pages/cards/Cards'
 import Login from '@/pages/login/Login'
 import Register from '@/pages/register/Register'
 import User from '@/pages/user/User'
+import myClan from '@/pages/user/components/Clans'
 
 import axios from 'axios'
 
@@ -39,11 +40,6 @@ const router = new Router({
           component: Clans
         },
         {
-          path: 'decks',
-          name: 'Decks',
-          component: Decks
-        },
-        {
           path: 'cards',
           name: 'Cards',
           component: Cards
@@ -64,7 +60,20 @@ const router = new Router({
       path: '/user',
       name: 'User',
       component: User,
-      meta: { requiresAuth: true }
+      redirect: '/user/decks',
+      meta: { requiresAuth: true },
+      children: [
+        {
+          path: 'decks',
+          name: 'Deck',
+          component: Decks
+        },
+        {
+          path: 'clans',
+          name: 'myClan',
+          component: myClan
+        }
+      ]
     },
     {
       path: '*',

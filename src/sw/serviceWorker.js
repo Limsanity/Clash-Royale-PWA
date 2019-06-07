@@ -1,3 +1,4 @@
+importScripts('/workbox/workbox-sw.js')
 importScripts('/indexDB.js')
 
 const runtimeCacheName = 'cr-cache'
