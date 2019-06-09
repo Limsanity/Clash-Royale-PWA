@@ -13,6 +13,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState, mapActions } from 'vuex'
 export default {
   name: 'Login',
   data () {
@@ -21,7 +22,11 @@ export default {
       password: ''
     }
   },
+  computed: {
+    ...mapState(['token'])
+  },
   methods: {
+    ...mapActions(['setAuth']),
     login () {
       axios.post(
         '/auth/login',
@@ -32,7 +37,8 @@ export default {
       ).then(res => {
         const { success, data } = res.data
         if (success) {
-          localStorage.setItem('username', res.data.username)
+          this.setAuth(data)
+          navigator.serviceWorker.controller.postMessage(data.token)
           this.$router.push('/user')
         } else {
           alert(data)

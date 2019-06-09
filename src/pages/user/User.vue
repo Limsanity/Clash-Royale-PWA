@@ -1,7 +1,7 @@
 <template>
   <div class="user">
     <div class="bar">
-      <span class="item">{{username}}</span>
+      <span class="item">{{auth.username}}</span>
       <span class="item" @click="logout">Log out</span>
     </div>
     <div class="menu-wrapper">
@@ -18,16 +18,16 @@
 
 <script>
 import axios from 'axios'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'User',
-  data () {
-    return {
-      username: localStorage.getItem('username')
-    }
+  computed: {
+    ...mapState(['auth'])
   },
   methods: {
+    ...mapMutations(['removeAuth']),
     logout () {
-      localStorage.removeItem('username')
+      this.removeAuth()
       axios.get('/auth/logout')
         .then(res => {
           this.$router.push('/login')

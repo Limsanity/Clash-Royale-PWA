@@ -9,6 +9,7 @@ import FastClick from 'fastclick'
 import 'styles/iconfont.css'
 
 Vue.config.productionTip = false
+Vue.config.devtools = true
 
 Vue.use(TopBar)
 Vue.use(ValidateInput)
@@ -35,8 +36,8 @@ Vue.directive('lazy', {
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
-  router,
   store,
+  router,
   components: {
     App
   },

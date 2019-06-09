@@ -28,9 +28,12 @@ const openObjectStore = function (storeName, callback, transactionMode) {
 }
 
 const addToObjectStore = function (storeName, object) {
-  openObjectStore(storeName, function (store) {
-    store.add(object)
-  }, 'readwrite')
+  return new Promise((resolve) => {
+    openObjectStore(storeName, function (store) {
+      store.add(object)
+      resolve()
+    }, 'readwrite')
+  })
 }
 
 const getFromObjectStore = function (storeName, objects) {

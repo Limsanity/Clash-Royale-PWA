@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import {
   addToObjectStore
 } from '@/utils/indexDB.js'
@@ -38,6 +39,9 @@ export default {
       decksList: [],
       showAddDeck: false
     }
+  },
+  computed: {
+    ...mapState(['token'])
   },
   methods: {
     fetchData () {
@@ -82,23 +86,27 @@ export default {
           deckID: this.decksList.length + 1,
           deck
         })
-        addToObjectStore('deck', {
-          deck
-        })
-        this.triggerSync()
-        // axios.post('/api/deck', deck)
-        //   .then(res => {
-        //     const { success, deckID, data } = res.data
-        //     if (success) {
-        //       this.decksList.push({
-        //         deckID,
-        //         deck
-        //       })
-        //       console.log(deck)
-        //     } else {
-        //       alert(data)
-        //     }
-        //   })
+        if ('SyncManager' in window) {
+          addToObjectStore('deck', {
+            deck
+          }).then(() => this.triggerSync())
+        } else {
+          axios.post('/api/deck', deck, {
+            'Authorization': 'Bearer ' + this.token
+          })
+            .then(res => {
+              const { success, deckID, data } = res.data
+              if (success) {
+                this.decksList.push({
+                  deckID,
+                  deck
+                })
+                console.log(deck)
+              } else {
+                alert(data)
+              }
+            })
+        }
       }
     },
     handleAddClick () {
