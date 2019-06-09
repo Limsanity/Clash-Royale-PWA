@@ -41,7 +41,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['token'])
+    ...mapState(['auth'])
   },
   methods: {
     fetchData () {
@@ -92,15 +92,13 @@ export default {
           }).then(() => this.triggerSync())
         } else {
           axios.post('/api/deck', deck, {
-            'Authorization': 'Bearer ' + this.token
+            headers: {
+              'Authorization': 'Bearer ' + this.auth.token
+            }
           })
             .then(res => {
-              const { success, deckID, data } = res.data
+              const { success, data } = res.data
               if (success) {
-                this.decksList.push({
-                  deckID,
-                  deck
-                })
                 console.log(deck)
               } else {
                 alert(data)
