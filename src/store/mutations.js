@@ -28,5 +28,12 @@ export default {
     if (!state.cards) {
       state.cards = cards
     }
+  },
+  setAuth (state, auth) {
+    console.log(auth)
+    state.auth = auth
+  },
+  removeAuth (state) {
+    state.auth = null
   }
 }

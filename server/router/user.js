@@ -1,6 +1,9 @@
 const Router = require('koa-router')
-const { findUserByName, addUser, login } = require('../utils/query')
+const jwt = require('jsonwebtoken')
 
+const tokenExpiresTime = 60 * 60
+const jwtSecret = 'jwtSecret'
+const { findUserByName, addUser, login } = require('../utils/query')
 const userRouter = new Router({ prefix: '/auth' })
 
 userRouter.get('/logout', async ctx => {
@@ -14,9 +17,16 @@ userRouter.get('/logout', async ctx => {
 
 userRouter.post('/login', async ctx => {
   if (ctx.session && ctx.session.username) {
+    let payload = {
+      name: ctx.session.username,
+    }
+    let token = jwt.sign(payload, jwtSecret, { expiresIn: tokenExpiresTime })
     ctx.body = {
       success: true,
-      username: ctx.session.username,
+      data: {
+        username: ctx.session.username,
+        token
+      }
     }
   } else {
     const body = ctx.request.body
@@ -29,9 +39,16 @@ userRouter.post('/login', async ctx => {
         username: body.username,
         userID: result.userID
       }
+      let payload = {
+        name: ctx.session.username,
+      }
+      let token = jwt.sign(payload, jwtSecret, { expiresIn: tokenExpiresTime })
       ctx.body = {
         success: true,
-        username: ctx.session.username
+        data: {
+          username: ctx.session.username,
+          token
+        }
       }
     } else {
       ctx.body = {

@@ -1,12 +1,15 @@
 importScripts('/workbox/workbox-sw.js')
 importScripts('/indexDB.js')
 
+let token;
+
+workbox.setConfig({
+  modulePathPrefix: '/workbox/'
+})
+
 const runtimeCacheName = 'cr-cache'
-
 workbox.core.skipWaiting()
-
 workbox.core.clientsClaim()
-
 workbox.core.setCacheNameDetails({
   prefix: '',
   suffix: '',
@@ -54,26 +57,51 @@ workbox.routing.setDefaultHandler(({ event }) => {
   }
 })
 
+function sendDeck (deck) {
+  return fetch('/api/deck', {
+    body: JSON.stringify(deck.deck),
+    headers: {
+      'content-type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    method: 'POST'
+  }).then(res => res.json())
+}
+
+function getToken () {
+  return fetch('/auth/login', { method: 'POST' }).then(res => res.json())
+}
+
 self.addEventListener('sync', (event) => {
+  if (event.tag === 'test') {
+    console.log(token)
+  }
   if (event.tag === 'send-deck') {
     const decks = []
     getFromObjectStore('deck', decks).then(() => {
       decks.forEach(deck => {
-        fetch('/api/deck', {
-          body: JSON.stringify(deck.deck),
-          headers: {
-            'content-type': 'application/json'
-          },
-          method: 'POST'
-        }).then(res => {
-          console.log(res.status)
-          if (res.status === 200) {
+        sendDeck(deck).then(res => {
+          if (res.success) {
             deleteFromObjectStore('deck', deck.key)
+          } else {
+            getToken()
+              .then(res => {
+                token = res.data.token
+                sendDeck(deck).then(res => {
+                  if (res.success) {
+                    deleteFromObjectStore('deck', deck.key)
+                  }
+                })
+              })
           }
         })
       })
     })
   }
+})
+
+self.addEventListener('message', (event) => {
+  token = event.data
 })
 
 self.addEventListener('push', (event) => {

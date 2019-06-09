@@ -84,16 +84,21 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    axios.post('/auth/login')
-      .then((res) => {
-        const { success, username } = res.data
-        if (success) {
-          localStorage.setItem('username', username)
-          next()
-        } else {
-          next({ path: '/login' })
-        }
-      })
+    if (!router.app.$store || !router.app.$store.state.auth) {
+      axios.post('/auth/login')
+        .then((res) => {
+          const { success, data } = res.data
+          if (success) {
+            router.app.$store.state.auth = data
+            navigator.serviceWorker.controller.postMessage(data.token)
+            next()
+          } else {
+            next({ path: '/login' })
+          }
+        })
+    } else {
+      next()
+    }
   } else {
     next()
   }

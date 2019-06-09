@@ -1,6 +1,8 @@
 const Router = require('koa-router')
+const jwt = require('jsonwebtoken')
 
 const apiRouter = new Router({ prefix: '/api' })
+const jwtSecret = 'jwtSecret'
 
 const {
   findDecksByUserID,
@@ -25,11 +27,12 @@ apiRouter.get('/deck', async ctx => {
 })
 
 apiRouter.post('/deck', async ctx => {
-  if (ctx.session && ctx.session.userID) {
+  const token = ctx.headers.authorization
+  try {
+    jwt.verify(token.split(' ')[1], jwtSecret)
     const userID = ctx.session.userID
     const body = ctx.request.body
     const arg = []
-    console.log(body)
     body.forEach(item => {
       arg.push(item.id)
     })
@@ -42,7 +45,7 @@ apiRouter.post('/deck', async ctx => {
       deckID: result.deckID,
       data: 'add deck successfully'
     }
-  } else {
+  } catch (e) {
     ctx.body = {
       success: false,
       data: 'please log in'
