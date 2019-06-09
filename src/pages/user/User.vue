@@ -9,7 +9,9 @@
         <router-link class="menu-item choosed" to="decks" tag="div">Decks</router-link>
         <router-link class="menu-item" to="clans" tag="div">Clans</router-link>
       </div>
-      <router-view></router-view>
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
     </div>
   </div>
 </template>

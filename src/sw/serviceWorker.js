@@ -1,12 +1,13 @@
 importScripts('/workbox/workbox-sw.js')
 importScripts('/indexDB.js')
 
+workbox.setConfig({
+  modulePathPrefix: '/workbox/'
+})
+
 const runtimeCacheName = 'cr-cache'
-
 workbox.core.skipWaiting()
-
 workbox.core.clientsClaim()
-
 workbox.core.setCacheNameDetails({
   prefix: '',
   suffix: '',

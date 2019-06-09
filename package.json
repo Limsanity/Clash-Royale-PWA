@@ -10,7 +10,9 @@
     "dev:server": "nodemon server/app.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
     "dll": "webpack --config build/webpack.dll.config.js",
-    "lint": "eslint --ext .js,.vue src"
+    "lint": "eslint --ext .js,.vue src",
+    "docker": "docker run -d -p 8080:80 cr-pwa",
+    "build:docker": "docker build -t=cr-pwa ."
   },
   "keywords": [],
   "author": "",
