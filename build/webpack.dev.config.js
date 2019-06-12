@@ -11,10 +11,6 @@ function resolve (dir) {
 
 const devWebpackConfig = merge(baseWebpackConfig, {
   mode: 'development',
-  output: {
-    filename: 'static/js/[name].[hash].js',
-    chunkFilename: 'static/js/[id].[hash].js',
-  },
   devtool: 'inline-source-map',
   devServer: {
     contentBase: false,

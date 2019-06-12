@@ -3,9 +3,9 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
-const webpack = require('webpack')
 const workboxPlugin = require('workbox-webpack-plugin')
+const ModuleHtmlPlugin = require('../plugins/moduleHtmlPlugin')
+const webpack = require('webpack')
 
 function resolve (dir) {
   return path.join(__dirname, '..', dir)
@@ -13,12 +13,18 @@ function resolve (dir) {
 
 module.exports = {
   context: path.join(__dirname, '../'),
+  stats:{
+    modules: false,
+    children: false,
+    chunks: false,
+    chunkModules: false
+  },
   entry: {
     app: './src/main.js'
   },
   output: {
-    filename: 'static/js/[name].[chunkhash].js',
-    chunkFilename: 'static/js/[id].[chunkhash].js',
+    filename: process.env.NODE_ENV === 'production' ? 'static/js/[name].[chunkhash].js' : 'static/js/[name].[hash].js',
+    chunkFilename: process.env.NODE_ENV === 'production' ? 'static/js/[id].[chunkhash].js' : 'static/js/[id].[hash].js',
     path: resolve('dist'),
     publicPath: '/'
   },
@@ -41,8 +47,23 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
-        include: [resolve('src')]
+          loader: 'babel-loader',
+          include: [resolve('src')],
+          options: {
+            presets: [["@babel/preset-env", {
+              targets: {
+                browsers: [
+                  'Chrome >= 60',
+                  'Safari >= 10.1',
+                  'iOS >= 10.3',
+                  'Firefox >= 54',
+                  'Edge >= 15',
+                ],
+              }
+            }]],
+            plugins: [["@babel/plugin-transform-runtime", { "corejs": 2 }]],
+            sourceType: "unambiguous"
+        }
       },
       {
         test: /\.vue$/,
@@ -106,18 +127,13 @@ module.exports = {
         ignore: process.env.NODE_ENV === 'production' ? ['*.dev.*'] : ['*.prod.*']
       }
     ]),
-    new webpack.DllReferencePlugin({
-      context: __dirname,
-      manifest: require('./../static/js/vendor-manifest.json')
-    }),
-    new AddAssetHtmlPlugin({
-      filepath: resolve('static/js/*.js'),
-    }),
     new workboxPlugin.InjectManifest({
       swSrc: path.join(__dirname, '../src/sw/serviceWorker.js'),
       swDest: 'serviceWorker.js',
       importWorkboxFrom: 'disabled',
       exclude: [/^workbox/, /index\.html/, /indexDB\.js/]
-    })
+    }),
+    new webpack.HashedModuleIdsPlugin(),
+    new ModuleHtmlPlugin()
   ]
 };

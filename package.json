@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "cross-env NODE_ENV=production webpack --config build/webpack.build.config.js",
+    "build": "npm run build:modern && npm run build:legacy",
+    "build:modern": "cross-env NODE_ENV=production webpack --config build/webpack.build.config.js",
+    "build:legacy": "cross-env NODE_ENV=production webpack --config build/webpack.legacy.config.js",
     "dev:client": "cross-env NODE_ENV=development webpack-dev-server --config build/webpack.dev.config.js",
     "dev:server": "nodemon server/app.js",
     "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
