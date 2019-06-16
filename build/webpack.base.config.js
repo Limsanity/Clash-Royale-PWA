@@ -106,6 +106,10 @@ module.exports = {
         ignore: process.env.NODE_ENV === 'production' ? ['*.dev.*'] : ['*.prod.*']
       }
     ]),
+    new webpack.ProvidePlugin({
+      'mapState':     ['vuex', 'mapState'],
+      'mapMutations': ['vuex', 'mapMutations']
+    }),
     new webpack.DllReferencePlugin({
       context: __dirname,
       manifest: require('./../static/js/vendor-manifest.json')

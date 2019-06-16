@@ -17,7 +17,6 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
 import {
   addToObjectStore
 } from '@/utils/indexDB.js'
