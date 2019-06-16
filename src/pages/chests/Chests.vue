@@ -3,7 +3,7 @@
     <h1 class="title">Chests</h1>
     <div class="chests-list">
       <div class="item" v-for="(item, index) in chestsList" :key="index">
-        <img :src="loadImg('chests', 'chest-' + item.type.toLowerCase())" alt="" class="pic">
+        <img :src="loadImg('chests', 'chest-' + item.type.toLowerCase().replace(/\s*/g,''))" alt="" class="pic">
         <span class="order">+{{ item.idx }}</span>
       </div>
       <div class="empty"></div>
