@@ -15,13 +15,13 @@
       </div>
 
       <div class="clan">
-        <img :src="`/static/images/badges/${playerInfo.clan.badge.name}.png`" alt="" class="badge">
+        <img :src="`/images/badges/${playerInfo.clan.badge.name}.png`" alt="" class="badge">
         <span class="clan-name">{{ playerInfo.clan.name }}</span>
         <span class="clan-tag">#{{ playerInfo.clan.tag }}</span>
         <span class="clan-role">{{ playerInfo.clan.role }}</span>
       </div>
 
-      <img class="arena" :src="`/static/images/arenas/arena${playerInfo.arena.arenaID}.png`" alt="">
+      <img class="arena" :src="`/images/arenas/arena${playerInfo.arena.arenaID}.png`" alt="">
     </div>
   </div>
 </template>

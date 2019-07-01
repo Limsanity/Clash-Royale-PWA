@@ -1,7 +1,7 @@
 const Router = require('koa-router')
 const jwt = require('jsonwebtoken')
 
-const tokenExpiresTime = '1h'
+const tokenExpiresTime = 60 * 60
 const jwtSecret = 'jwtSecret'
 const { findUserByName, addUser, login } = require('../utils/query')
 const userRouter = new Router({ prefix: '/auth' })
@@ -30,7 +30,7 @@ userRouter.post('/login', async ctx => {
     }
   } else {
     const body = ctx.request.body
-    let result
+    let result;
     if (body.username) {
       result = await login(body.username, body.password)
     }

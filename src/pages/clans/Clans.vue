@@ -30,11 +30,6 @@ export default {
   name: 'Clans',
   computed: {
     ...mapState(['clanInfo'])
-  },
-  methods: {
-    test () {
-      console.log(this.clanInfo)
-    }
   }
 }
 </script>

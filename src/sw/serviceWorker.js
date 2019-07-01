@@ -80,22 +80,21 @@ self.addEventListener('sync', (event) => {
     const decks = []
     getFromObjectStore('deck', decks).then(() => {
       decks.forEach(deck => {
-        sendDeck(deck)
-          .then(res => {
-            if (res.success) {
-              deleteFromObjectStore('deck', deck.key)
-            } else {
-              getToken()
-                .then(res => {
-                  token = res.data.token
-                  sendDeck(deck).then(res => {
-                    if (res.success) {
-                      deleteFromObjectStore('deck', deck.key)
-                    }
-                  })
+        sendDeck(deck).then(res => {
+          if (res.success) {
+            deleteFromObjectStore('deck', deck.key)
+          } else {
+            getToken()
+              .then(res => {
+                token = res.data.token
+                sendDeck(deck).then(res => {
+                  if (res.success) {
+                    deleteFromObjectStore('deck', deck.key)
+                  }
                 })
-            }
-          })
+              })
+          }
+        })
       })
     })
   }
