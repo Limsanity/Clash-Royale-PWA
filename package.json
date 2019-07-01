@@ -3,9 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vue-cli-service build",
+    "build": "vue-cli-service build --modern",
     "lint": "vue-cli-service lint",
-    "build:modern": "vue-cli-service build --modern",
     "dev": "vue-cli-service serve"
   },
   "dependencies": {
@@ -14,9 +13,9 @@
     "core-js": "^2.6.5",
     "cross-env": "^5.2.0",
     "fastclick": "^1.0.6",
-    "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
+    "vuetify": "^1.5.16",
     "vuex": "^3.0.1"
   },
   "devDependencies": {
@@ -24,6 +23,7 @@
     "@vue/cli-plugin-eslint": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
     "@vue/eslint-config-standard": "^4.0.0",
+    "autodll-webpack-plugin": "^0.4.2",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
@@ -34,6 +34,7 @@
     "koa-session": "^5.12.0",
     "koa-static": "^5.0.0",
     "koa2-connect-history-api-fallback": "^0.1.2",
+    "material-design-icons-iconfont": "^5.0.1",
     "mysql2": "^1.6.5",
     "sequelize": "^5.8.9",
     "stylus": "^0.54.5",

@@ -4,8 +4,8 @@
       <h2 class="player-name">{{ playerInfo.name }}</h2>
 
       <div class="button">
-        <span class="item follow iconfont">&#xe61f;</span>
-        <span class="item external iconfont">&#xe617;</span>
+        <v-icon class="item follow">favorite_outline</v-icon>
+        <v-icon class="item external">launch</v-icon>
       </div>
 
       <div class="level">
@@ -53,6 +53,7 @@ export default {
     box-sizing border-box
     height 5.813333rem
     padding .426667rem
+    background-color #fff !important
 
     .wrapper
       display flex

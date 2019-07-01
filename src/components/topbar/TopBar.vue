@@ -1,26 +1,30 @@
 <template>
   <div class="top-bar">
     <div class="iconlist">
-      <span class="item iconfont">&#xe632;</span>
+      <v-icon class="item" color="black">search</v-icon>
       <router-link
-        class="item iconfont"
+        class="item"
         tag="span"
         to="/user"
-      >&#xe66a;</router-link>
-      <span class="item iconfont" @click="toggleDropdown">&#xe61e;</span>
-      <span class="item iconfont">&#xe6e8;</span>
-    </div>
-    <div class="dropdown" ref="dropdown" @click="toggleDropdown">
-      <router-link
-        v-for="(item, index) of visited"
-        :key="index"
-        tag="div"
-        :to="{ name: 'Player', params: { tag: item.tag } }"
-        class="item"
       >
-        {{ item.name }}
+        <v-icon color="black">person</v-icon>
       </router-link>
-      <div class="item" @click="clearVisited">-- Clear --</div>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on }">
+          <v-icon class="item" v-on="on" color="black">favorite</v-icon>
+        </template>
+        <router-link
+          v-for="(item, index) of visited"
+          :key="index"
+          tag="div"
+          :to="{ name: 'Player', params: { tag: item.tag } }"
+          class="item"
+        >
+          {{ item.name }}
+        </router-link>
+        <div class="item" @click="clearVisited">-- Clear --</div>
+      </v-menu>
+      <v-icon class="item" color="black">reorder</v-icon>
     </div>
   </div>
 </template>
@@ -65,29 +69,5 @@ export default {
         display flex
         align-items center
         margin 0 .4rem
-        font-size 25px;
-
-    .dropdown
-      align-self flex-end
-      width 2.666667rem
-      max-height 0px
-      transition max-height 0.5s
-      background-color #fff
-      overflow hidden
-
-      .item
-        padding .2rem 0
-        text-align center
-        font-size 16px
-        white-space nowrap
-        text-overflow ellipsis
-        overflow hidden
-        border-left solid .026667rem
-        border-bottom solid .026667rem
-        border-color rgba(gray, 0.2)
-        font-size 12px
-        font-weight bold
-
-        &:nth-last-child(1)
-          border-bottom-left-radius .133333rem
+        font-size 25px
 </style>

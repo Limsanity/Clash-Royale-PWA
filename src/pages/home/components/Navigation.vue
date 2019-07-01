@@ -11,7 +11,7 @@
     </ul>
     <div class="wrapper">
       <input v-model.lazy="inputVal" type="text" class="search" placeholder="tag e.g.20Q2U9UQQ">
-      <span class="icon iconfont" @click="searchPlayer()">&#xe632;</span>
+      <v-icon class="icon" @click="searchPlayer()">search</v-icon>
     </div>
   </div>
 </template>
@@ -82,6 +82,7 @@ export default {
         padding .4rem
         border solid .053333rem #d4d4d5
         border-radius 0 0 .133333rem .133333rem
+        background-color #fff
         outline none
         font-size 16px
 

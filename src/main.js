@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
 import Vue from 'vue'
+import Vuetify from 'vuetify'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -7,11 +8,16 @@ import TopBar from './components/topbar'
 import ValidateInput from './components/validateInput'
 import Notification from './components/notification'
 import FastClick from 'fastclick'
-import 'styles/iconfont.css'
+
+import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false
 Vue.config.devtools = true
 
+Vue.use(Vuetify, {
+  iconfont: 'md'
+})
 Vue.use(TopBar)
 Vue.use(ValidateInput)
 Vue.use(Notification)
@@ -52,8 +58,8 @@ if ('serviceWorker' in navigator) {
     }).catch(registrationError => {
       console.log('SW registration failed: ', registrationError)
     })
-    navigator.serviceWorker.ready.then((registration) => {
-      registration.pushManager.subscribe({ userVisibleOnly: true })
-    })
+    // navigator.serviceWorker.ready.then((registration) => {
+    //   registration.pushManager.subscribe({ userVisibleOnly: true })
+    // })
   })
 }

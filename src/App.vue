@@ -1,8 +1,10 @@
 <template>
   <div id="app">
-    <top-bar></top-bar>
-    <notification></notification>
-    <router-view class="content"/>
+    <v-app>
+      <top-bar></top-bar>
+      <notification></notification>
+      <router-view class="content"/>
+    </v-app>
   </div>
 </template>
 
@@ -17,7 +19,7 @@ export default {
     width 100%
     margin 0
     padding 0
-    font-size 37.5px
+    font-size 37.5px !important
     background-color #f5f5f5
 
     .content
@@ -26,4 +28,21 @@ export default {
 
     input
       -webkit-appearance none
+
+    .v-menu__content
+      .item
+        padding .2rem
+        text-align center
+        white-space nowrap
+        text-overflow ellipsis
+        overflow hidden
+        border-left solid .026667rem
+        border-bottom solid .026667rem
+        border-color rgba(gray, 0.2)
+        font-size 12px
+        font-weight bold
+        background-color #fff
+
+        &:nth-last-child(1)
+          border-bottom-left-radius .133333rem
 </style>

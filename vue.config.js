@@ -1,4 +1,5 @@
 const path = require('path')
+const AutoDllPlugin = require('autodll-webpack-plugin')
 const workboxPlugin = require('workbox-webpack-plugin')
 
 const buildForLegacy = process.env.NODE_ENV === 'production' && !process.env.VUE_CLI_MODERN_BUILD
@@ -16,14 +17,33 @@ const workboxOptions = {
 
 module.exports = {
   configureWebpack: (config) => {
-    // 解决pwa插件在开发环境不引入的问题
-    if (!buildForLegacy) {
-      config.plugins.push(
-        new workboxPlugin.InjectManifest(workboxOptions)
-      )
-    }
+    config.plugins.push(
+      new AutoDllPlugin({
+        inject: true,
+        debug: true,
+        filename: '[name].[hash].js',
+        path: './dll',
+        entry: {
+          vendor: [
+            'vue/dist/vue.esm.js',
+            'vuex',
+            'vue-router',
+            'axios'
+          ]
+        }
+      })
+    )
+    config.plugins.push(
+      new workboxPlugin.InjectManifest(workboxOptions)
+    )
   },
   chainWebpack: (config) => {
+    if (process.env.NODE_ENV !== 'production') {
+      config.output
+        .set('filename', 'static/js/[name].[hash].js')
+        .set('chunkFilename', 'static/js/[name].[hash].js')
+    }
+
     config.resolve.alias
       .set('vue$', 'vue/dist/vue.esm.js')
       .set('@', resolve('src'))
