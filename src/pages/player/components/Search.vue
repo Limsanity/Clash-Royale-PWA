@@ -41,4 +41,5 @@ export default {
       margin-right .266667rem
       align-items center
       color white
+      background-color #2185d0 !important
 </style>

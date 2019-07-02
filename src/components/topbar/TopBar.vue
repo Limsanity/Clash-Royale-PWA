@@ -1,31 +1,31 @@
 <template>
   <div class="top-bar">
-    <div class="iconlist">
-      <v-icon class="item" color="black">search</v-icon>
-      <router-link
-        class="item"
-        tag="span"
-        to="/user"
-      >
-        <v-icon color="black">person</v-icon>
-      </router-link>
-      <v-menu offset-y>
-        <template v-slot:activator="{ on }">
-          <v-icon class="item" v-on="on" color="black">favorite</v-icon>
-        </template>
-        <router-link
-          v-for="(item, index) of visited"
-          :key="index"
-          tag="div"
-          :to="{ name: 'Player', params: { tag: item.tag } }"
-          class="item"
-        >
-          {{ item.name }}
-        </router-link>
-        <div class="item" @click="clearVisited">-- Clear --</div>
-      </v-menu>
-      <v-icon class="item" color="black">reorder</v-icon>
-    </div>
+    <v-toolbar flat>
+      <v-toolbar-side-icon></v-toolbar-side-icon>
+      <v-toolbar-title>Clash Royale</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn icon><v-icon color="black">search</v-icon></v-btn>
+        <v-btn to="/user" icon><v-icon color="black">person</v-icon></v-btn>
+        <v-menu
+          content-class="topbar__menu"
+          offset-y>
+          <template v-slot:activator="{ on }">
+            <v-btn icon><v-icon class="item" v-on="on" color="black">favorite</v-icon></v-btn>
+          </template>
+          <router-link
+            v-for="(item, index) of visited"
+            :key="index"
+            tag="div"
+            :to="{ name: 'Player', params: { tag: item.tag } }"
+            class="item"
+          >
+            {{ item.name }}
+          </router-link>
+          <div class="item" @click="clearVisited">-- Clear --</div>
+        </v-menu>
+      </v-toolbar-items>
+    </v-toolbar>
   </div>
 </template>
 
@@ -42,11 +42,7 @@ export default {
     ...mapState(['visited'])
   },
   methods: {
-    ...mapMutations(['clearVisited']),
-    toggleDropdown (e) {
-      this.dropdownShow = !this.dropdownShow
-      this.$refs.dropdown.style.maxHeight = this.dropdownShow ? Object.keys(this.visited).length * 100 + 'px' : '0px'
-    }
+    ...mapMutations(['clearVisited'])
   }
 }
 </script>
@@ -58,16 +54,4 @@ export default {
     flex-direction column
     width 100%
     z-index 1
-
-    .iconlist
-      display flex
-      justify-content flex-end
-      height 1.216rem
-      background-color #fff
-
-      .item
-        display flex
-        align-items center
-        margin 0 .4rem
-        font-size 25px
 </style>

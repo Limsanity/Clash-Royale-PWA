@@ -1,14 +1,14 @@
 <template>
   <div class="navigation">
-    <ul class="bar" @click="handleBarClick">
-      <li
-        :class="['item', item === curChoosed ? 'choosed' : '']"
+    <v-tabs
+      class="tabs">
+      <v-tab
         v-for="(item, index) of barItems"
         :key="index"
       >
         {{ item }}
-      </li>
-    </ul>
+      </v-tab>
+    </v-tabs>
     <div class="wrapper">
       <input v-model.lazy="inputVal" type="text" class="search" placeholder="tag e.g.20Q2U9UQQ">
       <v-icon class="icon" @click="searchPlayer()">search</v-icon>
@@ -53,23 +53,11 @@ export default {
     align-items fl
     padding .133333rem .266667rem
 
-    .bar
-      display flex
-      list-style none
-      padding 0
-      margin 0
-      margin-left .053333rem
-      z-index 1
+    >>> .theme--light
+      background-color #fafafa
 
-      .item
-        height 1.013333rem
-        line-height 1.013333rem
-        padding 0 .266667rem
-        border-bottom solid .053333rem #d4d4d5
-        font-size 14px
-
-      .choosed
-        border-bottom-color black
+    >>> .v-tabs__item--active
+      color #1890ff
 
     .wrapper
       position relative
@@ -92,5 +80,6 @@ export default {
         transform translateY(-50%)
         right .053333rem
         border solid .4rem #fff
+        background-color #fff !important
 
 </style>

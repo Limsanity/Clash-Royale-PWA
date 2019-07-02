@@ -20,18 +20,17 @@ export default {
     margin 0
     padding 0
     font-size 37.5px !important
-    background-color #f5f5f5
 
     .content
       position relative
-      top 1.216rem
+      top 1.493333rem
 
     input
       -webkit-appearance none
 
-    .v-menu__content
+    .topbar__menu
       .item
-        padding .2rem
+        padding .3rem .4rem
         text-align center
         white-space nowrap
         text-overflow ellipsis

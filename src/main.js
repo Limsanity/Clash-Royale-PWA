@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import Vue from 'vue'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/lib'
 import App from './App'
 import router from './router'
 import store from './store'
@@ -9,7 +9,7 @@ import ValidateInput from './components/validateInput'
 import Notification from './components/notification'
 import FastClick from 'fastclick'
 
-import 'vuetify/dist/vuetify.min.css'
+import 'vuetify/src/stylus/app.styl'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 
 Vue.config.productionTip = false

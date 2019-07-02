@@ -1,8 +1,16 @@
 <template>
   <div>
-    <div class="swiper">
-      <img src="https://royaleapi.com/static/img/carousel/freeze.jpg?t=1547977312.534345" alt="">
-    </div>
+    <v-carousel
+      height="4.5rem"
+      hide-controls="true"
+      hide-delimiters="true"
+    >
+      <v-carousel-item
+        v-for="(item, index) in carouselItems"
+        :key="index"
+        :src="item.src"
+      ></v-carousel-item>
+    </v-carousel>
     <navigation></navigation>
   </div>
 </template>
@@ -13,15 +21,18 @@ export default {
   name: 'Home',
   components: {
     Navigation
+  },
+  data () {
+    return {
+      carouselItems: [
+        { src: 'https://royaleapi.com/static/img/carousel/freeze.jpg?t=1547977312.534345' },
+        { src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg' }
+      ]
+    }
   }
 }
 </script>
 
 <style lang="stylus" scoped>
-  .swiper
-    min-height 3.76rem
 
-    img
-      width 100%
-      height 100%
 </style>

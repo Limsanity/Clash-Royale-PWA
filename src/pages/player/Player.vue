@@ -54,7 +54,8 @@ export default {
               name: members[i].name,
               role: members[i].role,
               participate: 0,
-              win: 0
+              win: 0,
+              rate: 0
             })
           }
 
@@ -69,6 +70,11 @@ export default {
               })
             })
           }
+
+          for (let i = 0, len = result.length; i < len; i++) {
+            result[i].rate = result[i].participate !== 0 && result[i].win !== 0 ? (result[i].win / result[i].participate).toFixed(2) : 0
+          }
+
           this.setClanInfo(result)
         }))
     }

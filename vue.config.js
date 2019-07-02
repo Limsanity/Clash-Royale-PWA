@@ -1,6 +1,8 @@
 const path = require('path')
 const AutoDllPlugin = require('autodll-webpack-plugin')
 const workboxPlugin = require('workbox-webpack-plugin')
+const ModernDLLPlugin = require('./plugins/modernDLLPlugin')
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
 
 const buildForLegacy = process.env.NODE_ENV === 'production' && !process.env.VUE_CLI_MODERN_BUILD
 
@@ -35,6 +37,12 @@ module.exports = {
     )
     config.plugins.push(
       new workboxPlugin.InjectManifest(workboxOptions)
+    )
+    config.plugins.push(
+      new ModernDLLPlugin()
+    )
+    config.plugins.push(
+      new VuetifyLoaderPlugin()
     )
   },
   chainWebpack: (config) => {
