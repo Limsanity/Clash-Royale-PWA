@@ -22,11 +22,21 @@ workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache =>
 self.addEventListener('fetch', async (event) => {
   if (event.request.destination === 'document') {
     event.respondWith(
-      caches.open(runtimeCacheName).then(cache => {
-        return fetch('/').then(res => {
-          cache.put('/', res.clone())
-          return res
-        }).catch(() => {
+      caches.open(runtimeCacheName).then(async (cache) => {
+        const req = new Promise((resolve, reject) => {
+          fetch.then(res => {
+            resolve(res)
+          }).catch(() => {
+            reject()
+          })
+        })
+        const timer = new Promise((resolve, reject) => {
+          setTimeout(()=>{
+            reject()
+          }, 5000)
+        })
+        const res = Promise.race([req, timer])
+        return res.then(res => res).catch(() => {
           return caches.match('/').then((response) => {
             setTimeout(() => {
               self.clients.matchAll().then(clients => {
