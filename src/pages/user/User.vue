@@ -18,6 +18,7 @@
 
 <script>
 import axios from 'axios'
+import { mapState, mapMutations } from 'vuex'
 export default {
   name: 'User',
   computed: {
@@ -26,9 +27,9 @@ export default {
   methods: {
     ...mapMutations(['removeAuth']),
     logout () {
+      this.removeAuth()
       axios.get('/auth/logout')
         .then(res => {
-          this.removeAuth()
           this.$router.push('/login')
         })
     }

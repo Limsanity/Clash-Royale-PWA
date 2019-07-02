@@ -19,10 +19,39 @@ workbox.core.setCacheNameDetails({
 
 workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache => ({ url: precache.url }))))
 
-workbox.routing.registerRoute(
-  '/',
-  new workbox.strategies.NetworkFirst()
-)
+self.addEventListener('fetch', async (event) => {
+  if (event.request.destination === 'document') {
+    event.respondWith(
+      caches.open(runtimeCacheName).then(async (cache) => {
+        const req = new Promise((resolve, reject) => {
+          fetch.then(res => {
+            resolve(res)
+          }).catch(() => {
+            reject()
+          })
+        })
+        const timer = new Promise((resolve, reject) => {
+          setTimeout(()=>{
+            reject()
+          }, 5000)
+        })
+        const res = Promise.race([req, timer])
+        return res.then(res => res).catch(() => {
+          return caches.match('/').then((response) => {
+            setTimeout(() => {
+              self.clients.matchAll().then(clients => {
+                clients.forEach(client => {
+                  client.postMessage('stale')
+                })
+              })
+            }, 3000);
+            return response
+          })
+        })
+      })
+    )
+  }
+})
 
 workbox.routing.registerRoute(
   /\.(js|css)$/,
@@ -32,7 +61,14 @@ workbox.routing.registerRoute(
 )
 
 workbox.routing.registerRoute(
-  /\.(png|jpg|webp)$/,
+  /fonts/,
+  new workbox.strategies.CacheFirst({
+    cacheName: runtimeCacheName
+  })
+)
+
+workbox.routing.registerRoute(
+  /\.(png|jpg|jpeg|webp)/,
   new workbox.strategies.CacheFirst({
     cacheName: 'image-cache',
     plugins: [
@@ -46,16 +82,17 @@ workbox.routing.registerRoute(
 workbox.routing.registerRoute(
   /^https:\/\/api\.royaleapi\.com/,
   new workbox.strategies.NetworkFirst({
+    networkTimeoutSeconds: 6,
     cacheName: 'api-cache'
   })
 )
 
-workbox.routing.setDefaultHandler(({ event }) => {
-  switch (event.request.destination) {
-    case 'document':
-      return fetch('/').catch(res => caches.open(runtimeCacheName).then((cache) => cache.match('/')))
-  }
-})
+// workbox.routing.setDefaultHandler(({ event }) => {
+//   switch (event.request.destination) {
+//     case 'document':
+//       return fetch('/').catch(res => caches.open(runtimeCacheName).then((cache) => cache.match('/')))
+//   }
+// })
 
 function sendDeck (deck) {
   return fetch('/api/deck', {
@@ -80,22 +117,21 @@ self.addEventListener('sync', (event) => {
     const decks = []
     getFromObjectStore('deck', decks).then(() => {
       decks.forEach(deck => {
-        sendDeck(deck)
-          .then(res => {
-            if (res.success) {
-              deleteFromObjectStore('deck', deck.key)
-            } else {
-              getToken()
-                .then(res => {
-                  token = res.data.token
-                  sendDeck(deck).then(res => {
-                    if (res.success) {
-                      deleteFromObjectStore('deck', deck.key)
-                    }
-                  })
+        sendDeck(deck).then(res => {
+          if (res.success) {
+            deleteFromObjectStore('deck', deck.key)
+          } else {
+            getToken()
+              .then(res => {
+                token = res.data.token
+                sendDeck(deck).then(res => {
+                  if (res.success) {
+                    deleteFromObjectStore('deck', deck.key)
+                  }
                 })
-            }
-          })
+              })
+          }
+        })
       })
     })
   }

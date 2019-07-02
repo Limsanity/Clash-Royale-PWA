@@ -4,8 +4,8 @@
       <h2 class="player-name">{{ playerInfo.name }}</h2>
 
       <div class="button">
-        <span class="item follow iconfont">&#xe61f;</span>
-        <span class="item external iconfont">&#xe617;</span>
+        <v-icon class="item follow">favorite_outline</v-icon>
+        <v-icon class="item external">launch</v-icon>
       </div>
 
       <div class="level">
@@ -15,13 +15,13 @@
       </div>
 
       <div class="clan">
-        <img :src="`/static/images/badges/${playerInfo.clan.badge.name}.png`" alt="" class="badge">
+        <img :src="`/images/badges/${playerInfo.clan.badge.name}.png`" alt="" class="badge">
         <span class="clan-name">{{ playerInfo.clan.name }}</span>
         <span class="clan-tag">#{{ playerInfo.clan.tag }}</span>
         <span class="clan-role">{{ playerInfo.clan.role }}</span>
       </div>
 
-      <img class="arena" :src="`/static/images/arenas/arena${playerInfo.arena.arenaID}.png`" alt="">
+      <img class="arena" :src="`/images/arenas/arena${playerInfo.arena.arenaID}.png`" alt="">
     </div>
   </div>
 </template>
@@ -53,6 +53,7 @@ export default {
     box-sizing border-box
     height 5.813333rem
     padding .426667rem
+    background-color #fff !important
 
     .wrapper
       display flex

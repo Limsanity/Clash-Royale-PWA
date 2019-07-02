@@ -2,7 +2,7 @@
   <div class="search">
     <span class="search-desc">Player</span>
     <input type="text" class="search-input" placeholder="tag e.g.20Q2U9UQQ">
-    <span class="icon iconfont">&#xe632;</span>
+    <v-icon class="icon">search</v-icon>
   </div>
 </template>
 
@@ -41,4 +41,5 @@ export default {
       margin-right .266667rem
       align-items center
       color white
+      background-color #2185d0 !important
 </style>

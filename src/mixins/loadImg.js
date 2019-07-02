@@ -1,7 +1,7 @@
 export default {
   methods: {
     loadImg (dir, name) {
-      let result = '/static/images/' + dir + '/' + name
+      let result = '/images/' + dir + '/' + name
       if (document
         .createElement('canvas')
         .toDataURL('image/webp')

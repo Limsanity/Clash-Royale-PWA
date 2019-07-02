@@ -1,26 +1,20 @@
 <template>
   <div class="clans">
-    <h1 class="title" @click="test">Clans</h1>
-    <div class="clan-bar">
-      <p class="bar-item">名称</p>
-      <p class="bar-item">职位</p>
-      <p class="bar-item">胜率</p>
-      <p class="bar-item">胜场</p>
-      <p class="bar-item">参与</p>
-    </div>
-    <div class="clan-list">
-      <div
-        class="clan-list-item"
-        v-for="(item, index) in clanInfo"
-        :key="index"
-      >
-        <p class="clan-list-item-style">{{item.name}}</p>
-        <p class="clan-list-item-style">{{item.role}}</p>
-        <p class="clan-list-item-style">{{item.participate !== 0 ? (item.win / item.participate).toFixed(2) : 0}}</p>
-        <p class="clan-list-item-style">{{item.win}}</p>
-        <p class="clan-list-item-style">{{item.participate}}</p>
-      </div>
-    </div>
+    <h1 class="title">Clans</h1>
+    <v-data-table
+      :headers="headers"
+      :items="clanInfo"
+      v-if="clanInfo"
+      :disable-initial-sort="true"
+    >
+      <template v-slot:items="props">
+        <td>{{ props.item.name }}</td>
+        <td>{{ props.item.role }}</td>
+        <td>{{ props.item.rate }}</td>
+        <td>{{ props.item.win }}</td>
+        <td>{{ props.item.participate }}</td>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -28,13 +22,36 @@
 import { mapState } from 'vuex'
 export default {
   name: 'Clans',
+  data () {
+    return {
+      headers: [
+        {
+          text: '名称',
+          value: 'name',
+          sortable: false
+        },
+        {
+          text: '职位',
+          value: 'role',
+          sortable: false
+        },
+        {
+          text: '胜率',
+          value: 'rate'
+        },
+        {
+          text: '胜场',
+          value: 'win'
+        },
+        {
+          text: '参与',
+          value: 'participate'
+        }
+      ]
+    }
+  },
   computed: {
     ...mapState(['clanInfo'])
-  },
-  methods: {
-    test () {
-      console.log(this.clanInfo)
-    }
   }
 }
 </script>

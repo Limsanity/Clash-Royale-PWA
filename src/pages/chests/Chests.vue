@@ -3,8 +3,18 @@
     <h1 class="title">Chests</h1>
     <div class="chests-list">
       <div class="item" v-for="(item, index) in chestsList" :key="index">
-        <img :src="loadImg('chests', 'chest-' + item.type.toLowerCase().replace(/\s*/g,''))" alt="" class="pic">
-        <span class="order">+{{ item.idx }}</span>
+        <!-- <img :src="loadImg('chests', 'chest-' + item.type.toLowerCase())" alt="" class="pic">
+        <span class="order">+{{ item.idx }}</span> -->
+        <v-badge
+          right
+          overlap
+          color="cyan"
+        >
+          <template v-slot:badge>
+            <span class="order">{{ item.idx }}</span>
+          </template>
+          <img :src="loadImg('chests', 'chest-' + item.type.toLowerCase())" alt="" class="pic">
+        </v-badge>
       </div>
       <div class="empty"></div>
       <div class="empty"></div>
@@ -78,20 +88,9 @@ export default {
           width: 100%
           height 100%
 
-        .order
-          display flex
-          justify-content center
-          align-items center
-          position absolute
-          top 0
-          right 0
-          min-width .8rem
-          height .746667rem
-          padding .053333rem
-          font-size 16px
-          background-color #fff
-          border-radius 1rem
-          border 1px solid rgba(34,36,38, .15)
+        >>>.v-badge__badge
+          min-width 30px
+          min-height 30px
 
       .empty
         width 2.266667rem

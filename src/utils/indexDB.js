@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 const openDatabase = function () {
   const request = self.indexedDB.open('cr-database', 2)
 
