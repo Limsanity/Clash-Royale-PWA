@@ -19,18 +19,27 @@ workbox.core.setCacheNameDetails({
 
 workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache => ({ url: precache.url }))))
 
-// workbox.routing.registerRoute(
-//   '/',
-//   new workbox.strategies.NetworkFirst({
-//     networkTimeoutSeconds: 5
-//   })
-// )
-
 self.addEventListener('fetch', async (event) => {
   if (event.request.destination === 'document') {
-    const strategy = new workbox.strategies.NetworkFirst({ networkTimeoutSeconds: 5 })
-    const resp = strategy.makeRequest({ event,  request: '/' })
-    event.respondWith(resp)
+    event.respondWith(
+      caches.open(runtimeCacheName).then(cache => {
+        return fetch('/').then(res => {
+          cache.put('/', res.clone())
+          return res
+        }).catch(() => {
+          return caches.match('/').then((response) => {
+            setTimeout(() => {
+              self.clients.matchAll().then(clients => {
+                clients.forEach(client => {
+                  client.postMessage('stale')
+                })
+              })
+            }, 3000);
+            return response
+          })
+        })
+      })
+    )
   }
 })
 
@@ -49,7 +58,7 @@ workbox.routing.registerRoute(
 )
 
 workbox.routing.registerRoute(
-  /\.(png|jpg|webp)$/,
+  /\.(png|jpg|jpeg|webp)/,
   new workbox.strategies.CacheFirst({
     cacheName: 'image-cache',
     plugins: [
