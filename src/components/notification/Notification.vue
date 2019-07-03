@@ -1,16 +1,33 @@
 <template>
-  <div class="notification" v-show="show">
+  <div class="notification">
+    <v-alert
+      :value="true"
+      color="success"
+      icon="check_circle"
+      outline
+      v-show="updateShow"
+    >
+      有新的内容
+      <v-btn
+        icon
+        color="success"
+        @click="reloadForUpdate"
+      >
+        <v-icon>refresh</v-icon>
+      </v-btn>
+    </v-alert>
     <v-alert
       :value="true"
       color="warning"
       icon="priority_high"
       outline
+      v-show="warnShow"
     >
       网络状况不好，页面信息来自缓存
       <v-btn
         icon
         color="warning"
-        @click="reload"
+        @click="reloadForStale"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
@@ -23,21 +40,26 @@ export default {
   name: 'Notification',
   data () {
     return {
-      show: false
+      warnShow: false,
+      updateShow: false
     }
   },
   methods: {
-    reload () {
-      this.show = false
-      location.reload()
+    reloadForStale () {
+      location.assign('/')
+    },
+    reloadForUpdate () {
+      location.assign(location.href + '/?cache=true')
     }
   },
   mounted () {
     navigator.serviceWorker.ready.then(() => {
       navigator.serviceWorker.addEventListener('message', (e) => {
-        this.show = true
-        if (e.data === 'stale') {
-          this.show = true
+        if (!this.updateShow && e.data === 'stale') {
+          this.warnShow = true
+        } else if (this.warnShow && e.data === 'update') {
+          this.warnShow = false
+          this.updateShow = true
         }
       })
     })

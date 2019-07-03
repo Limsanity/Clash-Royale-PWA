@@ -1,7 +1,9 @@
 importScripts('/workbox/workbox-sw.js')
 importScripts('/indexDB.js')
+importScripts('/swHelper.js')
 
-let token;
+let token
+let usingCache = false
 
 workbox.setConfig({
   modulePathPrefix: '/workbox/'
@@ -21,34 +23,15 @@ workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache =>
 
 self.addEventListener('fetch', async (event) => {
   if (event.request.destination === 'document') {
+    if (event.request.url.includes('cache')) {
+      usingCache = true
+    }
     event.respondWith(
-      caches.open(runtimeCacheName).then(async (cache) => {
-        const req = new Promise((resolve, reject) => {
-          fetch.then(res => {
-            resolve(res)
-          }).catch(() => {
-            reject()
-          })
-        })
-        const timer = new Promise((resolve, reject) => {
-          setTimeout(()=>{
-            reject()
-          }, 5000)
-        })
-        const res = Promise.race([req, timer])
-        return res.then(res => res).catch(() => {
-          return caches.match('/').then((response) => {
-            setTimeout(() => {
-              self.clients.matchAll().then(clients => {
-                clients.forEach(client => {
-                  client.postMessage('stale')
-                })
-              })
-            }, 3000);
-            return response
-          })
-        })
-      })
+      handleRequest('/', 5000, runtimeCacheName)
+    )
+  } else if (event.request.url.includes('api')) {
+    event.respondWith(
+      handleRequest(event.request, 5000, 'api-cache')
     )
   }
 })
@@ -79,21 +62,6 @@ workbox.routing.registerRoute(
   })
 )
 
-workbox.routing.registerRoute(
-  /^https:\/\/api\.royaleapi\.com/,
-  new workbox.strategies.NetworkFirst({
-    networkTimeoutSeconds: 6,
-    cacheName: 'api-cache'
-  })
-)
-
-// workbox.routing.setDefaultHandler(({ event }) => {
-//   switch (event.request.destination) {
-//     case 'document':
-//       return fetch('/').catch(res => caches.open(runtimeCacheName).then((cache) => cache.match('/')))
-//   }
-// })
-
 function sendDeck (deck) {
   return fetch('/api/deck', {
     body: JSON.stringify(deck.deck),
@@ -111,7 +79,7 @@ function getToken () {
 
 self.addEventListener('sync', (event) => {
   if (event.tag === 'test') {
-    console.log(token)
+    console.log(usingCache)
   }
   if (event.tag === 'send-deck') {
     const decks = []

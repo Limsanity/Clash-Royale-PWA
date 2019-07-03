@@ -69,6 +69,10 @@ module.exports = {
               from: resolve('src/utils/indexDB.js'),
               to: resolve('dist')
             })
+            args[0].push({
+              from: resolve('src/utils/swHelper.js'),
+              to: resolve('dist')
+            })
           }
           return args
         })
