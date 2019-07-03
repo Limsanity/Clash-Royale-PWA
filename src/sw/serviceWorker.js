@@ -31,7 +31,7 @@ self.addEventListener('fetch', async (event) => {
     )
   } else if (event.request.url.includes('api')) {
     event.respondWith(
-      handleRequest(event.request, 1000, 'api-cache')
+      handleRequest(event.request, 5000, 'api-cache')
     )
   }
 })
