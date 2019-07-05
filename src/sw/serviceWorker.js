@@ -29,7 +29,7 @@ self.addEventListener('fetch', async (event) => {
     event.respondWith(
       handleRequest('/', 5000, runtimeCacheName)
     )
-  } else if (event.request.url.includes('api')) {
+  } else if (event.request.url.includes('api.royaleapi')) {
     event.respondWith(
       handleRequest(event.request, 5000, 'api-cache')
     )

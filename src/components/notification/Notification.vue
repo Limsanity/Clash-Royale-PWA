@@ -55,9 +55,10 @@ export default {
   mounted () {
     navigator.serviceWorker.ready.then(() => {
       navigator.serviceWorker.addEventListener('message', (e) => {
-        if (!this.updateShow && e.data === 'stale') {
+        console.log(e.data)
+        if (!this.updateShow && e.data.includes('stale')) {
           this.warnShow = true
-        } else if (this.warnShow && e.data === 'update') {
+        } else if (this.warnShow && e.data.includes('update')) {
           this.warnShow = false
           this.updateShow = true
         }

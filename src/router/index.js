@@ -83,6 +83,7 @@ const router = new Router({
 })
 
 router.beforeEach((to, from, next) => {
+  console.log(to)
   if (to.matched.some(record => record.meta.requiresAuth)) {
     if (!router.app.$store || !router.app.$store.state.auth) {
       axios.post('/auth/login')
