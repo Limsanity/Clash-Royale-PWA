@@ -1,16 +1,13 @@
 importScripts('/workbox/workbox-sw.js')
 importScripts('/indexDB.js')
-importScripts('/swHelper.js')
-
-let token
-let usingCache = false
 
 workbox.setConfig({
   modulePathPrefix: '/workbox/'
 })
 
 const runtimeCacheName = 'cr-cache'
-workbox.core.skipWaiting()
+const offlineHTML = 'index.html'
+// workbox.core.skipWaiting()
 workbox.core.clientsClaim()
 workbox.core.setCacheNameDetails({
   prefix: '',
@@ -19,22 +16,23 @@ workbox.core.setCacheNameDetails({
   runtime: runtimeCacheName
 })
 
-workbox.precaching.precache(['/'].concat(self.__precacheManifest.map(precache => ({ url: precache.url }))))
+workbox.precaching.precache(self.__precacheManifest)
 
-self.addEventListener('fetch', async (event) => {
-  if (event.request.destination === 'document') {
-    if (event.request.url.includes('cache')) {
-      usingCache = true
+workbox.routing.registerRoute(
+  ({ event }) => event.request.destination === 'document',
+  async () => {
+    const cache = await caches.open(runtimeCacheName)
+    const requests = await cache.keys()
+    let resp
+    for (let i = 0; i < requests.length; i++) {
+      if (requests[i].url.includes(offlineHTML)) {
+        resp = await caches.match(requests[i].url)
+        break
+      }
     }
-    event.respondWith(
-      handleRequest('/', 5000, runtimeCacheName)
-    )
-  } else if (event.request.url.includes('api')) {
-    event.respondWith(
-      handleRequest(event.request, 5000, 'api-cache')
-    )
+    return resp
   }
-})
+)
 
 workbox.routing.registerRoute(
   /\.(js|css)$/,
@@ -105,8 +103,12 @@ self.addEventListener('sync', (event) => {
   }
 })
 
-self.addEventListener('message', (event) => {
-  token = event.data
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting()
+  } else {
+    token = event.data
+  }
 })
 
 self.addEventListener('push', (event) => {
