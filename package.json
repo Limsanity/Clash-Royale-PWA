@@ -38,6 +38,7 @@
     "koa2-connect-history-api-fallback": "^0.1.2",
     "material-design-icons-iconfont": "^5.0.1",
     "mysql2": "^1.6.5",
+    "postcss-px-to-viewport": "^1.1.1",
     "sequelize": "^5.8.9",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",

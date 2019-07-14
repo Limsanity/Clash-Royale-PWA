@@ -60,6 +60,16 @@ workbox.routing.registerRoute(
   })
 )
 
+self.addEventListener("message", event => {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  } else {
+    token = event.data
+  }
+})
+
+// some new tech
+
 function sendDeck (deck) {
   return fetch('/api/deck', {
     body: JSON.stringify(deck.deck),
@@ -100,14 +110,6 @@ self.addEventListener('sync', (event) => {
         })
       })
     })
-  }
-})
-
-self.addEventListener("message", event => {
-  if (event.data && event.data.type === "SKIP_WAITING") {
-    self.skipWaiting()
-  } else {
-    token = event.data
   }
 })
 

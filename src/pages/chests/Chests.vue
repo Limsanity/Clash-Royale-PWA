@@ -3,8 +3,6 @@
     <h1 class="title">Chests</h1>
     <div class="chests-list">
       <div class="item" v-for="(item, index) in chestsList" :key="index">
-        <!-- <img :src="loadImg('chests', 'chest-' + item.type.toLowerCase())" alt="" class="pic">
-        <span class="order">+{{ item.idx }}</span> -->
         <v-badge
           right
           overlap
@@ -80,9 +78,9 @@ export default {
       .item
         position relative
         box-sizing border-box
-        width 2.266667rem
-        height 2.266667rem
-        padding .266667rem
+        width 85px
+        height 85px
+        padding 10px
 
         .pic
           width: 100%
@@ -93,6 +91,6 @@ export default {
           min-height 30px
 
       .empty
-        width 2.266667rem
+        width 85px
         height 0
 </style>

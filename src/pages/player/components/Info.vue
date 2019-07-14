@@ -39,20 +39,20 @@ export default {
 <style lang="stylus" scoped>
   separate()
     position absolute
-    left -0.266667rem
+    left -10px
     top 0
     bottom 0
     display inline-block
     content ' '
-    width .053333rem
-    height .4rem
+    width 2px
+    height 15px
     margin auto
     background-color #d4d4d5
 
   .info
     box-sizing border-box
-    height 5.813333rem
-    padding .426667rem
+    height 218px
+    padding 16px
     background-color #fff !important
 
     .wrapper
@@ -72,18 +72,18 @@ export default {
         .item
           display inline-block
           position relative
-          width 1.12rem
-          height 1.12rem
-          line-height 1.12rem
+          width 42px
+          height 42px
+          line-height 42px
           text-align center
-          border solid .053333rem
+          border solid 2px
           border-radius 50%
           font-size 20px
 
         .follow
           color #e03997
           border-color #e03997
-          margin-right .266667rem
+          margin-right 10px
 
         .external
           color #1296db
@@ -97,11 +97,11 @@ export default {
         .badge
           display inline-block
           position relative
-          width .506667rem
-          height .506667rem
+          width 19px
+          height 19px
           margin auto
-          margin-left .266667rem
-          margin-right .533333rem
+          margin-left 10px
+          margin-right 20px
 
         .position
           position relative
@@ -113,36 +113,36 @@ export default {
         font-size 14px
 
         .badge
-          width .933333rem
-          height 1.109333rem
+          width 35px
+          height 41px
 
         .clan-name
           position relative
-          line-height 1.109333rem
-          margin-left .533333rem
-          margin-right .533333rem
+          line-height 41px
+          margin-left 20px
+          margin-right 20px
           text-overflow ellipsis
           white-space nowrap
           overflow hidden
 
         .clan-tag
           position relative
-          line-height 1.109333rem
-          margin-right .533333rem
+          line-height 41px
+          margin-right 20px
           &::before
             separate()
 
         .clan-role
           position relative
-          line-height 1.109333rem
+          line-height 41px
           &::before
             separate()
 
       .arena
         position absolute
-        width 1.92rem
-        height 1.92rem
+        width 72px
+        height 72px
         top 0
-        right .533333rem
+        right 20px
 
 </style>

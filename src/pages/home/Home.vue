@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-carousel
-      height="4.5rem"
+      height="45vw"
       hide-controls="true"
       hide-delimiters="true"
     >

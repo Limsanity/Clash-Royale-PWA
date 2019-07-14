@@ -62,14 +62,14 @@ export default {
         align-items center
 
         .pic
-          width 2.133333rem
-          height 2.56rem
+          width 80px
+          height 96px
 
         .upgrade-wrapper
-          width 1.92rem
-          height .112rem
+          width 72px
+          height 4.2px
           background-color rgba(0,0,0,.1)
-          border-radius .1rem
+          border-radius 2px
           overflow hidden
 
           .upgrade
@@ -83,13 +83,13 @@ export default {
 
         .level
           position absolute
-          top 1.6rem
+          top 60px
           font-size 16px
           font-weight bold
           color white
 
       .empty
-        width 2.133333rem
+        width 80px
         height 0
 
 </style>

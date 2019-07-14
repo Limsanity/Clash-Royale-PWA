@@ -15,18 +15,18 @@ export default {
 <style lang="stylus" scoped>
   .search
     display flex
-    height .834667rem
+    height 31px
     background-color #2185d0
 
     .search-desc
-      padding 0 .266667rem
-      line-height .834667rem
+      padding 0 10px
+      line-height 31px
       color #ffffff
       font-size 16px
 
     .search-input
       flex 1
-      padding 0 .266667rem
+      padding 0 10px
       border none
       background #2185d0
       color #ffffff
@@ -38,7 +38,7 @@ export default {
 
     .icon
       display flex
-      margin-right .266667rem
+      margin-right 10px
       align-items center
       color white
       background-color #2185d0 !important
