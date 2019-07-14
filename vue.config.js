@@ -14,7 +14,7 @@ const workboxOptions = {
   swSrc: resolve('src/sw/serviceWorker.js'),
   swDest: 'serviceWorker.js',
   importWorkboxFrom: 'disabled',
-  exclude: [/^workbox/, /images/, /index\.html/, /indexDB\.js/]
+  exclude: [/^workbox/, /images/, /indexDB\.js/, /\.map/]
 }
 
 module.exports = {

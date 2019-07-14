@@ -61,43 +61,4 @@ export default {
     .title
       margin 0
       font-size 20px
-
-    .clan-bar
-      display flex
-      justify-content space-between
-      border solid .02rem
-      border-color rgba(gray, 0.5)
-      border-left none
-      border-right none
-      font-size 14px
-
-      .bar-item
-        flex 1
-        padding .1rem
-        margin 0
-        text-align center
-        border-right solid .02rem
-        border-color rgba(gray, 0.5)
-        &:nth-last-child(1)
-          border-right none
-
-    .clan-list
-      font-size 14px
-      .clan-list-item
-        display flex
-        &:nth-child(2n+1)
-          background-color rgba(gray, 0.1)
-        .clan-list-item-style
-          flex 1
-          margin 0
-          padding .2rem .1rem
-          border solid .02rem
-          border-color rgba(gray, 0.5)
-          border-top none
-          border-left none
-          overflow hidden
-          text-overflow ellipsis
-          white-space nowrap
-          &:nth-last-child(1)
-            border-right none
 </style>

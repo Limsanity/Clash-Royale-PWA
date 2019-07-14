@@ -28,6 +28,10 @@ let sessionConfig = {
   signed: false
 }
 
+app.use(async (ctx, next) => {
+  console.log(ctx.url)
+  await next()
+})
 app.use(session(sessionConfig, app))
 app.use(bodyParser())
 app.use(historyApiFallback({

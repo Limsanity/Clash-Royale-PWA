@@ -2,32 +2,17 @@
   <div class="notification">
     <v-alert
       :value="true"
-      color="success"
-      icon="check_circle"
-      outline
-      v-show="updateShow"
-    >
-      有新的内容
-      <v-btn
-        icon
-        color="success"
-        @click="reloadForUpdate"
-      >
-        <v-icon>refresh</v-icon>
-      </v-btn>
-    </v-alert>
-    <v-alert
-      :value="true"
       color="warning"
       icon="priority_high"
       outline
       v-show="warnShow"
+      refs="updateBtn"
     >
       网络状况不好，页面信息来自缓存
       <v-btn
         icon
         color="warning"
-        @click="reloadForStale"
+        @click="reload"
       >
         <v-icon>refresh</v-icon>
       </v-btn>
@@ -36,33 +21,36 @@
 </template>
 
 <script>
+import { Workbox } from 'workbox-window'
 export default {
   name: 'Notification',
   data () {
     return {
       warnShow: false,
-      updateShow: false
+      updateShow: false,
+      wb: null
     }
   },
   methods: {
-    reloadForStale () {
-      location.assign('/')
-    },
-    reloadForUpdate () {
-      location.assign(location.href + '/?cache=true')
+    reload () {
+      this.wb.addEventListener('controlling', event => {
+        window.location.reload()
+      })
+      this.wb.messageSW({ type: 'SKIP_WAITING' })
     }
   },
   mounted () {
-    navigator.serviceWorker.ready.then(() => {
-      navigator.serviceWorker.addEventListener('message', (e) => {
-        if (!this.updateShow && e.data === 'stale') {
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        this.wb = new Workbox('/serviceWorker.js')
+
+        this.wb.addEventListener('waiting', event => {
           this.warnShow = true
-        } else if (this.warnShow && e.data === 'update') {
-          this.warnShow = false
-          this.updateShow = true
-        }
+        })
+
+        this.wb.register()
       })
-    })
+    }
   }
 }
 </script>

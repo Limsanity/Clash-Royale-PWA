@@ -26,7 +26,7 @@ export default {
 
   .bar
     display flex
-    height 1.173333rem
+    height 44px
     border-top border-style()
     border-bottom border-style()
     background-color rgba(0,0,0,.05)
@@ -45,5 +45,5 @@ export default {
 
   .pages
     box-sizing border-box
-    padding .266667rem
+    padding 10px
 </style>

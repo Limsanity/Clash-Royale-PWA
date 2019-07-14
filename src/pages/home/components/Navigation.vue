@@ -1,7 +1,8 @@
 <template>
   <div class="navigation">
     <v-tabs
-      class="tabs">
+      class="tabs"
+      :hide-slider="true">
       <v-tab
         v-for="(item, index) of barItems"
         :key="index"
@@ -50,8 +51,7 @@ export default {
     display flex
     flex-direction column
     justify-content flex-start
-    align-items fl
-    padding .133333rem .266667rem
+    padding 10px
 
     >>> .theme--light
       background-color #fafafa
@@ -62,14 +62,14 @@ export default {
     .wrapper
       position relative
       display flex
-      margin-top -.053333rem
+      margin-top -2px
 
       .search
         margin 0
         flex 1
-        padding .4rem
-        border solid .053333rem #d4d4d5
-        border-radius 0 0 .133333rem .133333rem
+        padding 15px
+        border solid 2px #d4d4d5
+        border-radius 0 0 4px 4px
         background-color #fff
         outline none
         font-size 16px
@@ -78,8 +78,8 @@ export default {
         position absolute
         top 50%
         transform translateY(-50%)
-        right .053333rem
-        border solid .4rem #fff
+        right 2px
+        border solid 15px #fff
         background-color #fff !important
 
 </style>
